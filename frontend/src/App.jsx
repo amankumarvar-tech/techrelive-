@@ -12,7 +12,11 @@ import CartPage from "./pages/CartPage";
 
 // ─── Protected route wrapper ──────────────────────────────
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const { user, token } = useSelector((s) => s.auth);
+  const { user, token, authReady } = useSelector((s) => s.auth);
+
+  // Auth ready nahi hai toh kuch mat dikhao (blink gone!)
+  if (!authReady) return null;
+
   if (!token || !user) return <Navigate to="/login" replace />;
   if (allowedRoles && !allowedRoles.includes(user.role))
     return <Navigate to="/" replace />;

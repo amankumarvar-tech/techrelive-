@@ -53,6 +53,7 @@ const authSlice = createSlice({
     token: storedToken,
     loading: false,
     error: null,
+    authReady: true,  // ← YEH ADD KAR
   },
   reducers: {
     logout(state) {
