@@ -49,9 +49,9 @@ export default function AdminDashboard() {
   };
 
   const TABS = [
-    { key: "pending", label: "Pending Approvals", icon: Package, count: pending.length },
-    { key: "stats",   label: "Stats",             icon: BarChart3 },
-    { key: "users",   label: "Users",             icon: Users, count: users.length },
+    { key: "pending", label: "Pending Approvals", icon: Package, count: pending?.length || 0 },
+    { key: "stats", label: "Stats", icon: BarChart3 },
+    { key: "users", label: "Users", icon: Users, count: users?.length || 0 },
   ];
 
   return (
@@ -76,9 +76,8 @@ export default function AdminDashboard() {
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-display font-semibold border-b-2 transition-colors -mb-px ${
-              tab === key ? "border-brand-500 text-brand-400" : "border-transparent text-white/40 hover:text-white"
-            }`}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-display font-semibold border-b-2 transition-colors -mb-px ${tab === key ? "border-brand-500 text-brand-400" : "border-transparent text-white/40 hover:text-white"
+              }`}
           >
             <Icon size={15} />
             {label}
@@ -157,10 +156,10 @@ export default function AdminDashboard() {
           {tab === "stats" && stats && (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { label: "Total Users",   value: stats.totalUsers,      color: "text-white" },
-                { label: "All Products",  value: stats.totalProducts,   color: "text-sky-400" },
-                { label: "Pending",       value: stats.pendingProducts, color: "text-amber-400" },
-                { label: "Live Listings", value: stats.approvedProducts,color: "text-emerald-400" },
+                { label: "Total Users", value: stats.totalUsers, color: "text-white" },
+                { label: "All Products", value: stats.totalProducts, color: "text-sky-400" },
+                { label: "Pending", value: stats.pendingProducts, color: "text-amber-400" },
+                { label: "Live Listings", value: stats.approvedProducts, color: "text-emerald-400" },
               ].map((s) => (
                 <div key={s.label} className="card p-6 text-center">
                   <p className={`font-display font-black text-4xl ${s.color}`}>{s.value}</p>

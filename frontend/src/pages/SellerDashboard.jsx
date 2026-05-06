@@ -10,10 +10,10 @@ const CONDITIONS = [
 ];
 
 const STATUS_STYLES = {
-  pending:  { color: "text-amber-400",  bg: "bg-amber-500/10  border-amber-500/20",  icon: Clock         },
-  approved: { color: "text-emerald-400",bg: "bg-emerald-500/10 border-emerald-500/20",icon: CheckCircle2  },
-  rejected: { color: "text-red-400",   bg: "bg-red-500/10    border-red-500/20",    icon: XCircle       },
-  sold:     { color: "text-sky-400",   bg: "bg-sky-500/10    border-sky-500/20",    icon: Package       },
+  pending: { color: "text-amber-400", bg: "bg-amber-500/10  border-amber-500/20", icon: Clock },
+  approved: { color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20", icon: CheckCircle2 },
+  rejected: { color: "text-red-400", bg: "bg-red-500/10    border-red-500/20", icon: XCircle },
+  sold: { color: "text-sky-400", bg: "bg-sky-500/10    border-sky-500/20", icon: Package },
 };
 
 const EMPTY_FORM = {
@@ -84,10 +84,10 @@ export default function SellerDashboard() {
   };
 
   const stats = {
-    total: listings.length,
-    pending: listings.filter((l) => l.status === "pending").length,
-    approved: listings.filter((l) => l.status === "approved").length,
-    sold: listings.filter((l) => l.status === "sold").length,
+    total: listings?.length || 0,
+    pending: listings?.filter((l) => l.status === "pending")?.length || 0,
+    approved: listings?.filter((l) => l.status === "approved")?.length || 0,
+    sold: listings?.filter((l) => l.status === "sold")?.length || 0,
   };
 
   return (
@@ -107,11 +107,10 @@ export default function SellerDashboard() {
 
       {/* Flash message */}
       {msg.text && (
-        <div className={`mb-6 px-4 py-3 rounded-xl border text-sm ${
-          msg.type === "success"
+        <div className={`mb-6 px-4 py-3 rounded-xl border text-sm ${msg.type === "success"
             ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
             : "bg-red-500/10 border-red-500/20 text-red-400"
-        }`}>
+          }`}>
           {msg.text}
         </div>
       )}

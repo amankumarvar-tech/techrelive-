@@ -13,7 +13,7 @@ export default function CartPage() {
       <div className="flex items-center gap-3 mb-8">
         <ShoppingCart size={22} className="text-brand-400" />
         <h1 className="font-display font-bold text-2xl">Your Cart</h1>
-        <span className="badge bg-brand-500/15 text-brand-400 border-brand-500/20">{items.length} items</span>
+        <span className="badge bg-brand-500/15 text-brand-400 border-brand-500/20">{items?.length || 0} items</span>
       </div>
 
       {items.length === 0 ? (

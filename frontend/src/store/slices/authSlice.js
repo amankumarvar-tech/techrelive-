@@ -1,8 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api";
 
-const storedUser = JSON.parse(localStorage.getItem("tr_user") || "null");
-const storedToken = localStorage.getItem("tr_token") || null;
+let storedUser = null;
+let storedToken = null;
+try {
+  storedUser = JSON.parse(localStorage.getItem("tr_user") || "null");
+  storedToken = localStorage.getItem("tr_token") || null;
+} catch (e) {
+  storedUser = null;
+  storedToken = null;
+}
 
 // ─── Async thunks ─────────────────────────────────────────
 export const registerUser = createAsyncThunk(
