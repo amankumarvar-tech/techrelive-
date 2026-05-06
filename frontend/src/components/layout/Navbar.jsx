@@ -11,7 +11,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((s) => s.auth);
-  const cartCount = useSelector((s) => s.cart.items.length);
+  const cartCount = useSelector((s) => s.cart.items?.length || 0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search, setSearch] = useState("");
 
