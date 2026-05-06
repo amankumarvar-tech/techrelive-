@@ -10,8 +10,8 @@ import api from "../utils/api";
 
 const CONDITION_INFO = {
   A: { label: "Like New", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20", desc: "Minimal signs of use. All original accessories may be included." },
-  B: { label: "Good",     color: "text-sky-400",     bg: "bg-sky-500/10 border-sky-500/20",         desc: "Light scratches or minor wear. Fully functional." },
-  C: { label: "Fair",     color: "text-amber-400",   bg: "bg-amber-500/10 border-amber-500/20",     desc: "Visible wear and cosmetic damage. Works properly." },
+  B: { label: "Good", color: "text-sky-400", bg: "bg-sky-500/10 border-sky-500/20", desc: "Light scratches or minor wear. Fully functional." },
+  C: { label: "Fair", color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20", desc: "Visible wear and cosmetic damage. Works properly." },
 };
 
 export default function ProductDetailPage() {
@@ -103,9 +103,8 @@ export default function ProductDetailPage() {
                 <button
                   key={i}
                   onClick={() => setImgIndex(i)}
-                  className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors ${
-                    i === imgIndex ? "border-brand-500" : "border-white/10 hover:border-white/30"
-                  }`}
+                  className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors ${i === imgIndex ? "border-brand-500" : "border-white/10 hover:border-white/30"
+                    }`}
                 >
                   {img ? <img src={img} alt="" className="w-full h-full object-cover" /> : null}
                 </button>
@@ -164,11 +163,11 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Specs */}
-          {product.specifications && Object.keys(Object.fromEntries(product.specifications)).length > 0 && (
+          {product.specifications && Object.keys(product.specifications).length > 0 && (
             <div className="bg-dark-700 rounded-2xl p-4 border border-white/5">
               <h3 className="font-display font-semibold text-sm mb-3 text-white/70">Specifications</h3>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
-                {[...product.specifications.entries()].map(([k, v]) => (
+                {Object.entries(product.specifications).map(([k, v]) => (
                   <div key={k}>
                     <dt className="text-white/30 text-xs font-mono capitalize">{k}</dt>
                     <dd className="text-white/80 text-sm">{v}</dd>
@@ -177,7 +176,6 @@ export default function ProductDetailPage() {
               </dl>
             </div>
           )}
-
           {/* Seller */}
           {product.seller && (
             <div className="flex items-center gap-3 p-4 bg-dark-700 rounded-2xl border border-white/5">
@@ -199,11 +197,10 @@ export default function ProductDetailPage() {
           <div className="flex gap-3 pt-2">
             <button
               onClick={() => inCart ? dispatch(removeFromCart(product._id)) : dispatch(addToCart(product))}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-display font-semibold transition-all duration-200 active:scale-95 ${
-                inCart
-                  ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20"
-                  : "btn-primary"
-              }`}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-display font-semibold transition-all duration-200 active:scale-95 ${inCart
+                ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20"
+                : "btn-primary"
+                }`}
             >
               {inCart ? <><CheckCircle size={18} /> Added to Cart</> : <><ShoppingCart size={18} /> Add to Cart</>}
             </button>
