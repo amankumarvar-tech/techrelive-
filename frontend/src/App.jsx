@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import HomePage from "./pages/HomePage";
+import { initializeAuth } from "./store/slices/authSlice";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -24,6 +26,12 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 };
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeAuth());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <div className="min-h-screen flex flex-col">

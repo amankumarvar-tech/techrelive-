@@ -7,15 +7,15 @@ import { Zap, Eye, EyeOff, AlertCircle } from "lucide-react";
 export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, token } = useSelector((s) => s.auth);
+  const { loading, error, token, authReady } = useSelector((s) => s.auth);
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPass, setShowPass] = useState(false);
 
   useEffect(() => {
-    if (token) navigate("/");
+    if (authReady && token) navigate("/");
     return () => dispatch(clearError());
-  }, [token]);
+  }, [authReady, token, navigate, dispatch]);
 
   const submit = (e) => {
     e.preventDefault();

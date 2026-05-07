@@ -45,6 +45,20 @@ export const fetchMe = createAsyncThunk("auth/me", async (_, { rejectWithValue }
   }
 });
 
+export const initializeAuth = createAsyncThunk(
+  "auth/initialize",
+  async (_, { rejectWithValue }) => {
+    const token = localStorage.getItem("tr_token");
+    if (!token) return rejectWithValue("No token");
+    try {
+      const res = await api.get("/auth/me");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Auth initialization failed");
+    }
+  }
+);
+
 // ─── Slice ────────────────────────────────────────────────
 const authSlice = createSlice({
   name: "auth",
@@ -53,7 +67,7 @@ const authSlice = createSlice({
     token: storedToken,
     loading: false,
     error: null,
-    authReady: true,  // ← YEH ADD KAR
+    authReady: false,
   },
   reducers: {
     logout(state) {
@@ -73,6 +87,7 @@ const authSlice = createSlice({
     };
     const handleFulfilled = (state, action) => {
       state.loading = false;
+      state.authReady = true;
       state.user = action.payload.user;
       state.token = action.payload.token;
       localStorage.setItem("tr_user", JSON.stringify(action.payload.user));
@@ -80,6 +95,7 @@ const authSlice = createSlice({
     };
     const handleRejected = (state, action) => {
       state.loading = false;
+      state.authReady = true;
       state.error = action.payload;
     };
 
@@ -92,10 +108,30 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, handleRejected)
       .addCase(fetchMe.fulfilled, (state, action) => {
         state.user = action.payload.user;
+        state.authReady = true;
       })
       .addCase(fetchMe.rejected, (state) => {
         state.user = null;
         state.token = null;
+        state.authReady = true;
+        localStorage.removeItem("tr_user");
+        localStorage.removeItem("tr_token");
+      })
+      .addCase(initializeAuth.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(initializeAuth.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.authReady = true;
+      })
+      .addCase(initializeAuth.rejected, (state) => {
+        state.loading = false;
+        state.error = null;
+        state.user = null;
+        state.token = null;
+        state.authReady = true;
         localStorage.removeItem("tr_user");
         localStorage.removeItem("tr_token");
       });

@@ -7,15 +7,15 @@ import { Zap, Eye, EyeOff, AlertCircle, User, ShoppingBag } from "lucide-react";
 export default function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, token } = useSelector((s) => s.auth);
+  const { loading, error, token, authReady } = useSelector((s) => s.auth);
 
   const [form, setForm] = useState({ name: "", email: "", password: "", role: "buyer" });
   const [showPass, setShowPass] = useState(false);
 
   useEffect(() => {
-    if (token) navigate("/");
+    if (authReady && token) navigate("/");
     return () => dispatch(clearError());
-  }, [token]);
+  }, [authReady, token, navigate, dispatch]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -50,11 +50,10 @@ export default function RegisterPage() {
                 key={val}
                 type="button"
                 onClick={() => setForm((f) => ({ ...f, role: val }))}
-                className={`flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all duration-200 ${
-                  form.role === val
+                className={`flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all duration-200 ${form.role === val
                     ? "bg-brand-500/15 border-brand-500/40 text-brand-400"
                     : "border-white/10 text-white/40 hover:border-white/20 hover:text-white/60"
-                }`}
+                  }`}
               >
                 <Icon size={20} />
                 <span className="text-xs font-display font-semibold">{label}</span>
